@@ -17,8 +17,8 @@ runs:
     uses: actions/cache@v2
     id: cached-swift-installer
     with:
-      path: "${{ env.TEMP }}/swift-installer.exe"
-      key: "swift-installer-v1.1-windows-https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe"
+      path: "%TEMP%\\swift-installer.exe"
+      key: "swift-installer-v1.2-windows-https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe"
   - name: Download Swift
     shell: pwsh
     run: |
