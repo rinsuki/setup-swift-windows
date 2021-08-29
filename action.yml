@@ -6,6 +6,10 @@ inputs:
     description: Version of Swift (e.g. `5.4.2`)
     required: true
 
+branding:
+  icon: chevrons-down
+  color: orange
+
 runs:
   using: composite
   steps:
