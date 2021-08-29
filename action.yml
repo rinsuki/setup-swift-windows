@@ -8,7 +8,6 @@ inputs:
 
 runs:
   using: composite
-  if: startsWith(runner.os, 'windows-')
   steps:
   - name: Download Cached Installer
     uses: actions/cache@v2
@@ -18,16 +17,20 @@ runs:
       key: "${{ runner.os }}-https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe"
   - name: Download Swift
     if: steps.cached-swift-installer.outputs.cache-hit != 'true'
+    shell: pwsh
     run: curl -o swift-installer.exe https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe
   - name: Install Swift
+    shell: pwsh
     run: Start-Process -Wait -FilePath swift-installer.exe -ArgumentList ("/quiet", "/norestart")
   - name: Set Environment Variables
+    shell: pwsh
     run: |
       echo "SDKROOT=C:\Library\Developer\Platforms\Windows.platform\Developer\SDKs\Windows.sdk" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       echo "DEVELOPER_DIR=C:\Library\Developer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       echo "C:\Library\Swift-development\bin;C:\Library\icu-67\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       echo "C:\Library\Developer\Toolchains\unknown-Asserts-development.xctoolchain\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
   - name: Install Supporting Files
+    shell: pwsh
     run: |
       Copy-Item "$env:SDKROOT\usr\share\ucrt.modulemap" -destination "$env:UniversalCRTSdkDir\Include\$env:UCRTVersion\ucrt\module.modulemap"
       Copy-Item "$env:SDKROOT\usr\share\visualc.modulemap" -destination "$env:VCToolsInstallDir\include\module.modulemap"
