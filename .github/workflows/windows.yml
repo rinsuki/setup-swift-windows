@@ -26,5 +26,5 @@ jobs:
       run: |
         mkdir build_test 
         cd build_test
-        swift init --type executable
+        swift package init --type executable
         swift run 
