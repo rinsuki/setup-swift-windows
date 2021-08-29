@@ -16,9 +16,12 @@ runs:
       path: swift-installer.exe
       key: "${{ runner.os }}-https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe"
   - name: Download Swift
-    if: steps.cached-swift-installer.outputs.cache-hit != 'true'
     shell: pwsh
-    run: curl -o swift-installer.exe https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe
+    run: |
+      If (test-path swift-installer.exe) {
+      } else {
+        curl -o swift-installer.exe https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe
+      }
   - name: Install Swift
     shell: pwsh
     run: Start-Process -Wait -FilePath swift-installer.exe -ArgumentList ("/quiet", "/norestart")
