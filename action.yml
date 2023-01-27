@@ -22,13 +22,13 @@ runs:
   - name: Download Swift
     shell: pwsh
     run: |
-      If (test-path "$env:TEMP/swift-installer.exe") {
+      If (test-path "$env:RUNNER_TEMP/swift-installer.exe") {
       } else {
-        curl -o "$env:TEMP/swift-installer.exe" https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe
+        curl -o "$env:RUNNER_TEMP/swift-installer.exe" https://swift.org/builds/swift-${{ inputs.version }}-release/windows10/swift-${{ inputs.version }}-RELEASE/swift-${{ inputs.version }}-RELEASE-windows10.exe
       }
   - name: Install Swift
     shell: pwsh
-    run: Start-Process -Wait -FilePath "$env:TEMP/swift-installer.exe" -ArgumentList ("/quiet", "/norestart")
+    run: Start-Process -Wait -FilePath "$env:RUNNER_TEMP/swift-installer.exe" -ArgumentList ("/quiet", "/norestart")
   - name: Set Environment Variables
     shell: pwsh
     run: |
